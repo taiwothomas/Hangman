@@ -41,11 +41,18 @@ class Hangman:
         Asks the user for a letter.
     '''
     def __init__(self, word_list, num_lives=5):
+        self.word_list = word_list
+        self.num_lives = 5
+        self.word = word_list[random.randint(len(word_list)-1)].lower()
+        self.num_letters = len(self.word)
+        self.word_guessed = []
+        for n in range(self.num_letters): self.word_guessed.append('_')
+        print(f"The mystery has {len(self.word)} characters.")
+        print(f"You've guessed {self.word_guessed}")
         # TODO 2: Initialize the attributes as indicated in the docstring
         # TODO 2: Print two message upon initialization:
         # 1. "The mystery word has {len(self.word)} characters" (The number of letters is NOT the UNIQUE number of letters)
         # 2. {word_guessed}
-        pass
 
     def check_letter(self, letter) -> None:
         '''
@@ -59,12 +66,19 @@ class Hangman:
             The letter to be checked
 
         '''
+        if letter.lower() in self.word:
+            position = self.word.index(letter.lower())
+            self.word[position] = letter
+            self.num_letters -= 1
+        elif letter not in self.word:
+            self.num_lives -= 1
+
         # TODO 3: Check if the letter is in the word. TIP: You can use the lower() method to convert the letter to lowercase
         # TODO 3: If the letter is in the word, replace the '_' in the word_guessed list with the letter
         # TODO 3: If the letter is in the word, the number of UNIQUE letters in the word that have not been guessed yet has to be reduced by 1
         # TODO 3: If the letter is not in the word, reduce the number of lives by 1
         # Be careful! A letter can contain the same letter more than once. TIP: Take a look at the index() method in the string class
-        pass
+        
 
     def ask_letter(self):
         '''
@@ -73,6 +87,7 @@ class Hangman:
         2. If the character is a single character
         If it passes both checks, it calls the check_letter method.
         '''
+        
         # TODO 1: Ask the user for a letter iteratively until the user enters a valid letter
         # TODO 1: Assign the letter to a variable called `letter`
         # TODO 1: The letter has to comply with the following criteria: It has to be a single character. If it is not, print "Please, enter just one character"
