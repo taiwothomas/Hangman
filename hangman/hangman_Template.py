@@ -42,10 +42,11 @@ class Hangman:
     '''
     def __init__(self, word_list, num_lives=5):
         self.word_list = word_list
-        self.num_lives = 5
+        self.num_lives = num_lives
         self.word = word_list[random.randint(len(word_list)-1)].lower()
         self.num_letters = len(self.word)
         self.word_guessed = []
+        self.list_letters = []
         for n in range(self.num_letters): self.word_guessed.append('_')
         print(f"The mystery has {len(self.word)} characters.")
         print(f"You've guessed {self.word_guessed}")
@@ -87,13 +88,19 @@ class Hangman:
         2. If the character is a single character
         If it passes both checks, it calls the check_letter method.
         '''
-        
+        letter = input("Guess a letter: ")
+        if len(letter) > 1:
+            print("Please enter just one character.")
+        elif letter in self.list_letters:
+            print(f"{letter} was already tried.")
+        else:
+            self.check_letter
         # TODO 1: Ask the user for a letter iteratively until the user enters a valid letter
         # TODO 1: Assign the letter to a variable called `letter`
         # TODO 1: The letter has to comply with the following criteria: It has to be a single character. If it is not, print "Please, enter just one character"
         # TODO 2. It has to be a letter that has not been tried yet. Use the list_letters attribute to check this. If it has been tried, print "{letter} was already tried".
         # TODO 3: If the letter is valid, call the check_letter method
-        pass
+        
 
 def play_game(word_list):
     # As an aid, part of the code is already provided:
