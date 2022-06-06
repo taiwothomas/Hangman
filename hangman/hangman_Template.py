@@ -4,6 +4,7 @@ The prints have to contain the same text as indicated, don't add any more prints
 or you will get 0 for this assignment.
 '''
 import random
+from turtle import position
 
 class Hangman:
     '''
@@ -43,12 +44,12 @@ class Hangman:
     def __init__(self, word_list, num_lives=5):
         self.word_list = word_list
         self.num_lives = num_lives
-        self.word = word_list[random.randint(len(word_list)-1)].lower()
+        self.word = word_list[0]#word_list[random.randint(0,len(word_list)-1)].lower()
         self.num_letters = len(self.word)
         self.word_guessed = []
         self.list_letters = []
         for n in range(self.num_letters): self.word_guessed.append('_')
-        print(f"The mystery has {len(self.word)} characters")
+        print(f"The mystery word has {len(self.word)} characters")
         print(f"{self.word_guessed}")
         # TODO 2: Initialize the attributes as indicated in the docstring
         # TODO 2: Print two message upon initialization:
@@ -67,12 +68,19 @@ class Hangman:
             The letter to be checked
 
         '''
+        n = 0
+        for i in range(len(self.word)):
+            if letter.lower() in self.word[n]:
+                self.word_guessed[n] = self.word[n]
+                self.num_letters -= 1
+            n += 1
         if letter.lower() in self.word:
-            position = self.word.index(letter.lower())
-            self.word[position] = letter
-            self.num_letters -= 1
-        elif letter not in self.word:
+            print("Good guess. Guess another letter.")
+            print(f"{self.word_guessed}")
+        elif letter.lower() not in self.word:
             self.num_lives -= 1
+            print("Wrong guess")
+            print(f"{self.word_guessed}")
 
         # TODO 3: Check if the letter is in the word. TIP: You can use the lower() method to convert the letter to lowercase
         # TODO 3: If the letter is in the word, replace the '_' in the word_guessed list with the letter
@@ -94,6 +102,7 @@ class Hangman:
         elif letter in self.list_letters:
             print(f"{letter} was already tried.")
         else:
+            self.list_letters.append(letter)
             self.check_letter(letter)
         # TODO 1: Ask the user for a letter iteratively until the user enters a valid letter
         # TODO 1: Assign the letter to a variable called `letter`
@@ -109,8 +118,9 @@ def play_game(word_list):
     while game.num_lives > 0 and game_on:
         game.ask_letter()
         if game.num_lives == 0:
-            print(f"You ran out of lives. The word was{game.word}")
-        elif game.word_guessed.join(",") == game.word:
+            print(f"You ran out of lives. The word was {game.word}")
+        elif game.word_guessed == list(game.word):
+            game_on = False
             print("Congratulations, you won!")
 
         
