@@ -74,6 +74,7 @@ class Hangman:
                 self.word_guessed[n] = self.word[n]
                 self.num_letters -= 1
             n += 1
+        
         if letter.lower() in self.word:
             print("Good guess. Guess another letter.")
             print(f"{self.word_guessed}")
@@ -115,7 +116,7 @@ def play_game(word_list):
     # As an aid, part of the code is already provided:
     game = Hangman(word_list, num_lives=5)
     game_on = True
-    while game.num_lives > 0 and game_on:
+    while game.num_lives > 0 and game.num_letters > 0:
         game.ask_letter()
         if game.num_lives == 0:
             print(f"You ran out of lives. The word was {game.word}")
